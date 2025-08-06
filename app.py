@@ -43,10 +43,6 @@ import pickle
 import warnings
 warnings.filterwarnings('ignore')
 
-# accessing the file
-from google.colab import drive
-drive.mount('/content/drive')
-
 data = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/Practice Projects/Files/Loan Prediction.csv')
 
 """## Data Preprocessing"""
