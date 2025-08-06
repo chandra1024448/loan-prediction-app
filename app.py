@@ -216,8 +216,6 @@ best_model = grid_search.best_estimator_
 
 """###3. Model3 - XGBoost"""
 
-!pip install xgboost
-
 # training the xgboost model
 xgb.model3 = xgb.XGBClassifier(random_state=42, use_label_encoder=False, eval_metric='logloss')
 xgb.model3.fit(x_train_balanced, y_train_balanced)
