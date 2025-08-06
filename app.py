@@ -366,4 +366,3 @@ if submitted:
     plot_importance(model.named_steps['model'], max_num_features=10, height=0.5, ax=ax)
     st.pyplot(fig)
 
-!pip install streamlit
