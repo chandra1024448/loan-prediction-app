@@ -12,6 +12,7 @@ Original file is located at
 # importing required libraries
 import numpy as np
 import pandas as pd
+import stremlit as st
 
 # to visualizing
 import matplotlib.pyplot as plt
