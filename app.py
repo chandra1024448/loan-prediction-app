@@ -179,96 +179,53 @@ st.bar_chart(data['Risk_Flag'].value_counts())
 
 """##EDA
 
-# EDA Visuals Section
-st.subheader("📊 Exploratory Data Analysis")
-
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px
+st.subheader("🔍 Exploratory Data Analysis (EDA)")
 
-fig, ax = plt.subplots()
-sns.countplot(x='House_Ownership', data=data, ax=ax)
-st.pyplot(fig)  # 👈 This renders the plot in Streamlit
+# 1. Distribution of Income
+st.markdown("### 📊 Income Distribution")
+fig1, ax1 = plt.subplots()
+sns.histplot(data['Income'], kde=True, ax=ax1)
+ax1.set_title("Income Distribution")
+st.pyplot(fig1)
 
-if st.checkbox("Show EDA Plots"):
-    st.markdown("### Income Distribution")
-    fig1, ax1 = plt.subplots()
-    sns.histplot(data["Income"], kde=True, ax=ax1)
-    st.pyplot(fig1)
+# 2. Countplot for House Ownership
+st.markdown("### 🏠 House Ownership Count")
+fig2, ax2 = plt.subplots()
+sns.countplot(x='House_Ownership', data=data, ax=ax2)
+ax2.set_title("House Ownership")
+st.pyplot(fig2)
 
-    st.markdown("### Age Distribution")
-    fig2, ax2 = plt.subplots()
-    sns.histplot(data["Age"], kde=True, ax=ax2)
-    st.pyplot(fig2)
+# 3. Car Ownership
+st.markdown("### 🚗 Car Ownership Count")
+fig3, ax3 = plt.subplots()
+sns.countplot(x='Car_Ownership', data=data, ax=ax3)
+ax3.set_title("Car Ownership")
+st.pyplot(fig3)
 
-    st.markdown("### House Ownership Count")
-    fig3, ax3 = plt.subplots()
-    sns.countplot(data["House_Ownership"], ax=ax3)
-    st.pyplot(fig3)
+# 4. Marital Status
+st.markdown("### 💍 Marital Status Count")
+fig4, ax4 = plt.subplots()
+sns.countplot(x='Married/Single', data=data, ax=ax4)
+ax4.set_title("Marital Status")
+st.pyplot(fig4)
 
-    st.markdown("### Car Ownership Count")
-    fig4, ax4 = plt.subplots()
-    sns.countplot(data["Car_Ownership"], ax=ax4)
-    st.pyplot(fig4)
+# 5. Age vs Income Scatter Plot (optional)
+st.markdown("### 📈 Age vs Income")
+fig5, ax5 = plt.subplots()
+sns.scatterplot(x='Age', y='Income', hue='Risk_Flag', data=data, ax=ax5)
+ax5.set_title("Age vs Income colored by Risk Flag")
+st.pyplot(fig5)
 
-    st.markdown("### Risk Flag Count")
-    fig5, ax5 = plt.subplots()
-    sns.countplot(data["Risk_Flag"], ax=ax5)
-    st.pyplot(fig5)
-    
-###Univariate Analysis
-"""
+# 6. Risk Flag distribution
+st.markdown("### ⚠️ Loan Risk Distribution")
+fig6, ax6 = plt.subplots()
+sns.countplot(x='Risk_Flag', data=data, ax=ax6)
+ax6.set_title("Loan Risk: 0 = Low Risk, 1 = High Risk")
+st.pyplot(fig6)
 
-# defining the figure size
-plt.figure(figsize=(15, 12)) # Adjusted figure size
-
-n_features = len(data.columns)
-n_cols = 4 # Number of columns you want in the subplot grid
-n_rows = (n_features + n_cols - 1) // n_cols # Calculate the number of rows needed
-
-for i, feature in enumerate(data.columns):
-  plt.subplot(n_rows, n_cols, i+1)
-  sns.histplot(data=data, x =feature)
-  plt.xlabel(feature)
-  plt.ylabel('Frequency')
-
-plt.tight_layout()
-plt.show()
-
-"""###Bivariate Analysis"""
-
-if 'ID' in data.columns:
-    data = data.drop('ID', axis=1)
-
-# Convert categorical variables
-data = pd.get_dummies(data)
-
-# Replace NaNs
-data = data.fillna(0)
-
-TARGET_COLUMN = 'Risk_Flag'  # or whichever is correct
-X = data.drop(TARGET_COLUMN, axis=1)
-y = data[TARGET_COLUMN]
-
-# plotting the countplot for all features
-plt.figure(figsize=(15, 12))
-n_features = len(data.columns)
-n_cols = 4
-n_rows = (n_features + n_cols - 1) // n_cols
-
-for i, feature in enumerate(data.columns):
-  plt.subplot(n_rows, n_cols, i+1)
-  sns.countplot(data=data, x=feature, hue='Risk_Flag')
-  plt.xlabel(feature)
-  plt.ylabel('Count')
-  plt.legend(['Not Defaulted', 'Defaulted'])
-
-plt.tight_layout()
-plt.show()
-
-# plotting the heatmap
-plt.figure(figsize=(10, 8))
-sns.heatmap(data.corr(), annot=True, cmap='coolwarm')
-plt.show()
 
 """##Model Building"""
 
