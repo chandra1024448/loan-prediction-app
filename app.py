@@ -47,14 +47,11 @@ warnings.filterwarnings('ignore')
 data = pd.read_csv('https://raw.githubusercontent.com/chandra1024448/loan-prediction-app/main/Loan%20Prediction.csv', encoding='ISO-8859-1')
 
 st.title("Loan Prediction App 🚀")
-st.subheader("Dataset Preview")
-st.write("data.head()")
-
-
 
 """## Data Preprocessing"""
 
-st.write(data.head())
+st.subheader("Dataset Preview")
+st.write("data.head()")
 
 st.write("Shape of the dataset:", data.shape)
 
