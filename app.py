@@ -47,7 +47,8 @@ warnings.filterwarnings('ignore')
 data = pd.read_csv('https://raw.githubusercontent.com/chandra1024448/loan-prediction-app/main/Loan%20Prediction.csv', encoding='ISO-8859-1')
 
 st.title("Loan Prediction App 🚀")
-st.write("This app predicts whether a loan will be approved or not based on user input.")
+st.subheader("Dataset Preview")
+st.write("data.head()")
 
 
 
@@ -141,10 +142,18 @@ plt.show()
 
 """###Bivariate Analysis"""
 
-x = data.drop(columns=['Risk_Flag'], axis = 1)
-y = data['Risk_Flag']
+if 'ID' in data.columns:
+    data = data.drop('ID', axis=1)
 
-data.shape
+# Convert categorical variables
+data = pd.get_dummies(data)
+
+# Replace NaNs
+data = data.fillna(0)
+
+TARGET_COLUMN = 'Risk_Flag'  # or whichever is correct
+X = data.drop(TARGET_COLUMN, axis=1)
+y = data[TARGET_COLUMN]
 
 # plotting the countplot for all features
 plt.figure(figsize=(15, 12))
@@ -215,6 +224,16 @@ sns.heatmap(confusion_matrix(y_test, y_pred), annot=True, cmap='Blues')
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.show();
+
+st.subheader("Predict Loan Risk")
+user_input = []
+for col in X.columns:
+    val = st.number_input(f"Enter value for {col}", value=0.0)
+    user_input.append(val)
+
+if st.button("Predict"):
+    prediction = model.predict([user_input])
+    st.write("Prediction:", int(prediction[0]))
 
 """###2. Model2 - Random Forest"""
 
