@@ -75,8 +75,9 @@ for col in data.select_dtypes(include='object').columns:
     data[col] = le.fit_transform(data[col])
 
 # Split data
-X = data.drop('Loan_Status', axis=1)
-y = data['Loan_Status']
+st.write("Columns in dataset:", data.columns.tolist())
+X = data.drop('Risk_Flag', axis=1)
+y = data['Risk_Flag']
 model = LogisticRegression(max_iter=1000)
 model.fit(X, y)
 
