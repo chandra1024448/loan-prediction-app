@@ -43,7 +43,7 @@ import pickle
 import warnings
 warnings.filterwarnings('ignore')
 
-data = pd.read_csv('https://raw.githubusercontent.com/chandra1024448/loan-prediction-app/main/Loan%20Prediction.csv', encoding='utf-8')
+data = pd.read_csv('https://raw.githubusercontent.com/chandra1024448/loan-prediction-app/main/Loan%20Prediction.csv', encoding='ISO-8859-1')
 
 """## Data Preprocessing"""
 
