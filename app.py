@@ -185,43 +185,32 @@ import seaborn as sns
 # EDA Visuals Section
 st.subheader("📊 Exploratory Data Analysis")
 
-if st.checkbox("Show EDA Visuals"):
-    # Plot 1: Risk_Flag distribution
-    st.write("### 1. Risk_Flag Distribution")
+if st.checkbox("Show EDA Plots"):
+    st.markdown("### Income Distribution")
     fig1, ax1 = plt.subplots()
-    sns.histplot(data['Risk_Flag], ax=ax1)
+    sns.histplot(data["Income"], kde=True, ax=ax1)
     st.pyplot(fig1)
 
-    # Plot 2: Income distribution
-    st.write("### 2. Income Distribution")
+    st.markdown("### Age Distribution")
     fig2, ax2 = plt.subplots()
-    sns.histplot(data['Income'], kde=True, ax=ax2)
+    sns.histplot(data["Age"], kde=True, ax=ax2)
     st.pyplot(fig2)
 
-    # Plot 3: Age vs Income
-    st.write("### 3. Age vs Income")
+    st.markdown("### House Ownership Count")
     fig3, ax3 = plt.subplots()
-    sns.scatterplot(x='Age', y='Income', data=data, ax=ax3)
+    sns.countplot(data["House_Ownership"], ax=ax3)
     st.pyplot(fig3)
 
-    # Plot 4: Countplot of House Ownership
-    st.write("### 4. House Ownership Count")
+    st.markdown("### Car Ownership Count")
     fig4, ax4 = plt.subplots()
-    sns.countplot(data=data, x='House_Ownership', ax=ax4)
+    sns.countplot(data["Car_Ownership"], ax=ax4)
     st.pyplot(fig4)
 
-    # Plot 5: Car Ownership by Risk Flag
-    st.write("### 5. Car Ownership vs Risk")
+    st.markdown("### Risk Flag Count")
     fig5, ax5 = plt.subplots()
-    sns.countplot(data=data, x='Car_Ownership', hue='Risk_Flag', ax=ax5)
+    sns.countplot(data["Risk_Flag"], ax=ax5)
     st.pyplot(fig5)
-
-    # Plot 6: Correlation heatmap
-    st.write("### 6. Correlation Heatmap")
-    fig6, ax6 = plt.subplots(figsize=(10,6))
-    sns.heatmap(data.corr(numeric_only=True), annot=True, cmap='coolwarm', ax=ax6)
-    st.pyplot(fig6)
-
+    
 ###Univariate Analysis
 """
 
