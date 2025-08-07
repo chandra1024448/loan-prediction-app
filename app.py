@@ -45,6 +45,11 @@ warnings.filterwarnings('ignore')
 
 data = pd.read_csv('https://raw.githubusercontent.com/chandra1024448/loan-prediction-app/main/Loan%20Prediction.csv', encoding='ISO-8859-1')
 
+st.title("Loan Prediction App 🚀")
+st.write("This app predicts whether a loan will be approved or not based on user input.")
+
+
+
 """## Data Preprocessing"""
 
 data.head()
@@ -60,24 +65,57 @@ data.info()
 data1 = (data['CITY'].value_counts().sum() - data['CITY'].duplicated().sum())
 print(data1)
 
-print(data['Married/Single'].value_counts())
-print(data['House_Ownership'].value_counts())
-print(data['Car_Ownership'].value_counts())
-print(data['Profession'].value_counts())
-print(data['CITY'].value_counts())
-print(data['STATE'].value_counts())
+# Basic preprocessing
+data.dropna(inplace=True)
 
-# converting categorical values into integer
+# Encode categorical columns
 le = LabelEncoder()
-data['Married/Single'] = le.fit_transform(data['Married/Single'])
-data['House_Ownership'] = le.fit_transform(data['House_Ownership'])
-data['Car_Ownership'] = le.fit_transform(data['Car_Ownership'])
-data['Profession'] = le.fit_transform(data['Profession'])
-data['CITY'] = le.fit_transform(data['CITY'])
-data['STATE'] = le.fit_transform(data['STATE'])
+for col in data.select_dtypes(include='object').columns:
+    data[col] = le.fit_transform(data[col])
 
-data.info()
+# Split data
+X = data.drop('Loan_Status', axis=1)
+y = data['Loan_Status']
+model = LogisticRegression(max_iter=1000)
+model.fit(X, y)
 
+# User Input UI
+st.sidebar.header("Enter Applicant Details")
+
+gender = st.sidebar.selectbox("Gender", ['Male', 'Female'])
+married = st.sidebar.selectbox("Married", ['Yes', 'No'])
+education = st.sidebar.selectbox("Education", ['Graduate', 'Not Graduate'])
+self_employed = st.sidebar.selectbox("Self Employed", ['Yes', 'No'])
+applicant_income = st.sidebar.number_input("Applicant Income", min_value=0)
+coapplicant_income = st.sidebar.number_input("Coapplicant Income", min_value=0)
+loan_amount = st.sidebar.slider("Loan Amount", min_value=0, max_value=700)
+loan_term = st.sidebar.slider("Loan Term (in days)", min_value=0, max_value=480)
+credit_history = st.sidebar.selectbox("Credit History", [1.0, 0.0])
+property_area = st.sidebar.selectbox("Property Area", ['Urban', 'Semiurban', 'Rural'])
+
+# Encode user inputs
+input_dict = {
+    'Gender': 1 if gender == 'Male' else 0,
+    'Married': 1 if married == 'Yes' else 0,
+    'Education': 1 if education == 'Graduate' else 0,
+    'Self_Employed': 1 if self_employed == 'Yes' else 0,
+    'ApplicantIncome': applicant_income,
+    'CoapplicantIncome': coapplicant_income,
+    'LoanAmount': loan_amount,
+    'Loan_Amount_Term': loan_term,
+    'Credit_History': credit_history,
+    'Property_Area': {'Urban': 2, 'Semiurban': 1, 'Rural': 0}[property_area]
+}
+
+input_df = pd.DataFrame([input_dict])
+
+# Predict
+prediction = model.predict(input_df)[0]
+result = "Approved ✅" if prediction == 1 else "Rejected ❌"
+
+# Show result
+st.subheader("Prediction Result")
+st.write(f"Your loan is likely to be: *{result}*")
 """##EDA
 
 ###Univariate Analysis
