@@ -56,11 +56,13 @@ st.write("data.head()")
 
 st.write(data.head())
 
-data.shape
+st.write("Shape of the dataset:", data.shape)
 
-data.isnull().sum()
+st.write("Descriptive Statistics:")
+st.write(data.describe())
 
-data.describe()
+st.write("Missing values in each column:")
+st.write(data.isnull().sum())
 
 data.info()
 
