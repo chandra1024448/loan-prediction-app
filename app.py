@@ -54,7 +54,7 @@ st.write("data.head()")
 
 """## Data Preprocessing"""
 
-data.head()
+st.write(data.head())
 
 data.shape
 
