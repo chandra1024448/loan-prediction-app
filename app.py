@@ -84,22 +84,22 @@ st.write("Available columns in dataset:", data.columns.tolist())
 
 st.sidebar.header("Applicant Details")
 
-state = st.sidebar.selectbox("State", sorted(data["STATE"].unique()))
+state = st.sidebar.selectbox("STATE", sorted(data["STATE"].unique()))
 city = st.sidebar.selectbox("CITY", sorted(data["CITY"].unique()))
-income = st.sidebar.number_input("Income (in USD)", min_value=0)
-loan_amount = st.sidebar.number_input("Loan Amount (in USD)", min_value=0)
-monthly_emi = st.sidebar.number_input("Monthly EMI (in USD)", min_value=0)
-num_dependents = st.sidebar.number_input("Number of Dependents", min_value=0, step=1)
-credit_score = st.sidebar.number_input("Credit Score", min_value=300, max_value=900)
+income = st.sidebar.number_input("Income", min_value=0)
+loan_amount = st.sidebar.number_input("Experience", min_value=0)
+monthly_emi = st.sidebar.number_input("Married/Single", min_value=0)
+num_dependents = st.sidebar.number_input("House_Ownership", min_value=0, step=1)
+credit_score = st.sidebar.number_input("Car_Ownership", SORTED(data[Car_Ownership].UNIQUE()))
 
 input_data = {
-    "State": [STATE],
-    "City": [CITI],
-    "Income": [income],
-    "LoanAmount": [loan_amount],
-    "MonthlyEMI": [monthly_emi],
-    "Dependents": [num_dependents],
-    "CreditScore": [credit_score]
+    "STATE": [STATE],
+    "CITY": [CITI],
+    "Income": [Income],
+    "Experience": [Experience],
+    "Married/Single": [Married/Single],
+    "House_Ownership": [House_Ownership],
+    "Car_Ownership": [Car_Ownership]
 }
 
 input_df = pd.DataFrame(input_data)
