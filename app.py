@@ -78,44 +78,48 @@ model = LogisticRegression(max_iter=1000)
 model.fit(X, y)
 
 # User Input UI
-st.sidebar.header("Enter Applicant Details")
+st.sidebar.header("Applicant Details")
 
-gender = st.sidebar.selectbox("Gender", ['Male', 'Female'])
-married = st.sidebar.selectbox("Married", ['Yes', 'No'])
-education = st.sidebar.selectbox("Education", ['Graduate', 'Not Graduate'])
-self_employed = st.sidebar.selectbox("Self Employed", ['Yes', 'No'])
-applicant_income = st.sidebar.number_input("Applicant Income", min_value=0)
-coapplicant_income = st.sidebar.number_input("Coapplicant Income", min_value=0)
-loan_amount = st.sidebar.slider("Loan Amount", min_value=0, max_value=700)
-loan_term = st.sidebar.slider("Loan Term (in days)", min_value=0, max_value=480)
-credit_history = st.sidebar.selectbox("Credit History", [1.0, 0.0])
-property_area = st.sidebar.selectbox("Property Area", ['Urban', 'Semiurban', 'Rural'])
+# Dropdown inputs
+Gender = st.sidebar.selectbox("Gender", ["Male", "Female"])
+Ever_Married = st.sidebar.selectbox("Ever Married", ["Yes", "No"])
+Graduated = st.sidebar.selectbox("Graduated", ["Yes", "No"])
+Profession = st.sidebar.selectbox("Profession", ["Healthcare", "Engineer", "Lawyer", "Artist", "Executive", "Other"])
+Var_1 = st.sidebar.selectbox("Category", ["Cat_A", "Cat_B", "Cat_C", "Cat_D", "Cat_E", "Cat_F", "Cat_G"])
 
-# Encode user inputs
+# Numeric inputs
+Age = st.sidebar.slider("Age", 20, 80, 30)
+Work_Experience = st.sidebar.slider("Work Experience", 0, 20, 5)
+Spending_Score = st.sidebar.slider("Spending Score", 1, 100, 50)
+Family_Size = st.sidebar.slider("Family Size", 1, 10, 3)
+
+# Create input dataframe
 input_dict = {
-    'Gender': 1 if gender == 'Male' else 0,
-    'Married': 1 if married == 'Yes' else 0,
-    'Education': 1 if education == 'Graduate' else 0,
-    'Self_Employed': 1 if self_employed == 'Yes' else 0,
-    'ApplicantIncome': applicant_income,
-    'CoapplicantIncome': coapplicant_income,
-    'LoanAmount': loan_amount,
-    'Loan_Amount_Term': loan_term,
-    'Credit_History': credit_history,
-    'Property_Area': {'Urban': 2, 'Semiurban': 1, 'Rural': 0}[property_area]
+    'Gender': [Gender],
+    'Ever_Married': [Ever_Married],
+    'Graduated': [Graduated],
+    'Profession': [Profession],
+    'Var_1': [Var_1],
+    'Age': [Age],
+    'Work_Experience': [Work_Experience],
+    'Spending_Score': [Spending_Score],
+    'Family_Size': [Family_Size]
 }
 
-input_df = pd.DataFrame([input_dict])
+input_df = pd.DataFrame(input_dict)
 
-# Predict
-input_df = input_df[X_columns]
+# Show input for user confirmation
+st.subheader("Input Details")
+st.write(input_df)
+
+# Predict and display result
 prediction = model.predict(input_df)[0]
-result = "Approved ✅" if prediction == 1 else "Rejected ❌"
 
-# Show result
-st.subheader("Prediction Result")
-st.write(f"Your loan is likely to be: *{result}*")
-
+st.subheader("Prediction")
+if prediction == 1:
+    st.success("High Risk – Loan may not be approved.")
+else:
+    st.success("Low Risk – Loan likely to be approved.")
 
 st.subheader("Exploratory Data Analysis (EDA)")
 
