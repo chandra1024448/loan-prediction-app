@@ -84,17 +84,17 @@ st.write("Available columns in dataset:", data.columns.tolist())
 
 st.sidebar.header("Applicant Details")
 
-state = st.sidebar.selectbox("State", sorted(data["State"].unique()))
-city = st.sidebar.selectbox("City", sorted(data["City"].unique()))
-income = st.sidebar.number_input("Annual Income (in USD)", min_value=0)
+state = st.sidebar.selectbox("State", sorted(data["STATE"].unique()))
+city = st.sidebar.selectbox("CITY", sorted(data["CITY"].unique()))
+income = st.sidebar.number_input("Income (in USD)", min_value=0)
 loan_amount = st.sidebar.number_input("Loan Amount (in USD)", min_value=0)
 monthly_emi = st.sidebar.number_input("Monthly EMI (in USD)", min_value=0)
 num_dependents = st.sidebar.number_input("Number of Dependents", min_value=0, step=1)
 credit_score = st.sidebar.number_input("Credit Score", min_value=300, max_value=900)
 
 input_data = {
-    "State": [state],
-    "City": [city],
+    "State": [STATE],
+    "City": [CITI],
     "Income": [income],
     "LoanAmount": [loan_amount],
     "MonthlyEMI": [monthly_emi],
