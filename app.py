@@ -80,42 +80,70 @@ model.fit(X, y)
 # User Input UI
 st.sidebar.header("Applicant Details")
 
-st.write("Available columns in dataset:", data.columns.tolist())
+import pickle
 
-st.sidebar.header("Applicant Details")
+# Example encoders for your categorical columns
+from sklearn.preprocessing import LabelEncoder
 
-state = st.sidebar.selectbox("STATE", sorted(data["STATE"].unique()))
-city = st.sidebar.selectbox("CITY", sorted(data["CITY"].unique()))
-income = st.sidebar.number_input("Income", min_value=0)
-loan_amount = st.sidebar.number_input("Experience", min_value=0)
-monthly_emi = st.sidebar.number_input("Married/Single", min_value=0)
-num_dependents = st.sidebar.number_input("House_Ownership", min_value=0, step=1)
-credit_score = st.sidebar.number_input("Car_Ownership", SORTED(data[Car_Ownership].UNIQUE()))
+married_encoder = LabelEncoder()
+data["Married/Single"] = married_encoder.fit_transform(data["Married/Single"])
 
-input_data = {
-    "STATE": [STATE],
-    "CITY": [CITI],
-    "Income": [Income],
-    "Experience": [Experience],
-    "Married/Single": [Married/Single],
-    "House_Ownership": [House_Ownership],
-    "Car_Ownership": [Car_Ownership]
-}
+house_encoder = LabelEncoder()
+data["House_Ownership"] = house_encoder.fit_transform(data["House_Ownership"])
 
-input_df = pd.DataFrame(input_data)
+car_encoder = LabelEncoder()
+data["Car_Ownership"] = car_encoder.fit_transform(data["Car_Ownership"])
 
-# Show input for user confirmation
-st.subheader("Input Details")
-st.write(input_df)
+profession_encoder = LabelEncoder()
+data["Profession"] = profession_encoder.fit_transform(data["Profession"])
 
-# Predict and display result
+city_encoder = LabelEncoder()
+data["CITY"] = city_encoder.fit_transform(data["CITY"])
+
+state_encoder = LabelEncoder()
+data["STATE"] = state_encoder.fit_transform(data["STATE"])
+
+# Save all encoders
+with open("encoders.pkl", "wb") as f:
+    pickle.dump({
+        "married": married_encoder,
+        "house": house_encoder,
+        "car": car_encoder,
+        "profession": profession_encoder,
+        "city": city_encoder,
+        "state": state_encoder
+    }, f)
+
+with open("logistic_model.pkl", "wb") as f:
+    pickle.dump(model, f)
+
+import pickle
+
+# Load the model
+model_url = "https://raw.githubusercontent.com/chandra1024448/loan-prediction-app/main/logistic_model.pkl"
+model = pickle.load(requests.get(model_url, stream=True).raw)
+
+# Load the encoders
+encoder_url = "https://raw.githubusercontent.com/chandra1024448/loan-prediction-app/main/encoders.pkl"
+encoders = pickle.load(requests.get(encoder_url, stream=True).raw)
+
+# Encode categorical values using the same encoders
+input_df["Married/Single"] = encoders["married"].transform(input_df["Married/Single"])
+input_df["House_Ownership"] = encoders["house"].transform(input_df["House_Ownership"])
+input_df["Car_Ownership"] = encoders["car"].transform(input_df["Car_Ownership"])
+input_df["Profession"] = encoders["profession"].transform(input_df["Profession"])
+input_df["CITY"] = encoders["city"].transform(input_df["CITY"])
+input_df["STATE"] = encoders["state"].transform(input_df["STATE"])
+
+# Predict
 prediction = model.predict(input_df)[0]
 
-st.subheader("Prediction")
+# Display result
 if prediction == 1:
-    st.success("High Risk – Loan may not be approved.")
+    st.success("🚨 High Risk: Loan might default")
 else:
-    st.success("Low Risk – Loan likely to be approved.")
+    st.success("✅ Low Risk: Loan is likely safe")
+
 
 st.subheader("Exploratory Data Analysis (EDA)")
 
