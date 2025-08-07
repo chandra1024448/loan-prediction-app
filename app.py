@@ -145,8 +145,6 @@ else:
     st.success("✅ Low Risk: Loan is likely safe")
 
 
-st.subheader("Exploratory Data Analysis (EDA)")
-
 # Dataset overview
 st.write("### Dataset Overview")
 st.dataframe(data.head())
@@ -182,49 +180,40 @@ st.bar_chart(data['Risk_Flag'].value_counts())
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
+
 st.subheader("🔍 Exploratory Data Analysis (EDA)")
 
-# 1. Distribution of Income
+# 1. Income Distribution
 st.markdown("### 📊 Income Distribution")
 fig1, ax1 = plt.subplots()
 sns.histplot(data['Income'], kde=True, ax=ax1)
 ax1.set_title("Income Distribution")
 st.pyplot(fig1)
 
-# 2. Countplot for House Ownership
-st.markdown("### 🏠 House Ownership Count")
+# 2. House Ownership Count
+st.markdown("### 🏠 House Ownership")
 fig2, ax2 = plt.subplots()
 sns.countplot(x='House_Ownership', data=data, ax=ax2)
 ax2.set_title("House Ownership")
 st.pyplot(fig2)
 
-# 3. Car Ownership
-st.markdown("### 🚗 Car Ownership Count")
+# 3. Marital Status
+st.markdown("### 💍 Marital Status")
 fig3, ax3 = plt.subplots()
-sns.countplot(x='Car_Ownership', data=data, ax=ax3)
-ax3.set_title("Car Ownership")
+sns.countplot(x='Married/Single', data=data, ax=ax3)
+ax3.set_title("Marital Status")
 st.pyplot(fig3)
 
-# 4. Marital Status
-st.markdown("### 💍 Marital Status Count")
+# 4. Risk Flag Distribution
+st.markdown("### ⚠️ Risk Flag")
 fig4, ax4 = plt.subplots()
-sns.countplot(x='Married/Single', data=data, ax=ax4)
-ax4.set_title("Marital Status")
+sns.countplot(x='Risk_Flag', data=data, ax=ax4)
+ax4.set_title("Risk Distribution (0 = Low Risk, 1 = High Risk)")
 st.pyplot(fig4)
 
-# 5. Age vs Income Scatter Plot (optional)
-st.markdown("### 📈 Age vs Income")
-fig5, ax5 = plt.subplots()
-sns.scatterplot(x='Age', y='Income', hue='Risk_Flag', data=data, ax=ax5)
-ax5.set_title("Age vs Income colored by Risk Flag")
-st.pyplot(fig5)
-
-# 6. Risk Flag distribution
-st.markdown("### ⚠️ Loan Risk Distribution")
-fig6, ax6 = plt.subplots()
-sns.countplot(x='Risk_Flag', data=data, ax=ax6)
-ax6.set_title("Loan Risk: 0 = Low Risk, 1 = High Risk")
-st.pyplot(fig6)
+git add app.py
+git commit -m "Added EDA plots"
+git push
 
 
 """##Model Building"""
