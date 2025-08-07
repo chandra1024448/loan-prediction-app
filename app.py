@@ -80,6 +80,16 @@ model.fit(X, y)
 # User Input UI
 st.sidebar.header("Applicant Details")
 
+from sklearn.preprocessing import LabelEncoder
+
+le = LabelEncoder()
+for col in ['Gender', 'Ever_Married', 'Graduated', 'Profession', 'Var_1']:
+    data[col] = le.fit_transform(data[col])
+
+# Apply the same label encoding to input_df
+for col in ['Gender', 'Ever_Married', 'Graduated', 'Profession', 'Var_1']:
+    input_df[col] = le.transform(input_df[col])
+
 # Dropdown inputs
 Gender = st.sidebar.selectbox("Gender", ["Male", "Female"])
 Ever_Married = st.sidebar.selectbox("Ever Married", ["Yes", "No"])
