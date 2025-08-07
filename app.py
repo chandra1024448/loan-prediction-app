@@ -80,43 +80,29 @@ model.fit(X, y)
 # User Input UI
 st.sidebar.header("Applicant Details")
 
-from sklearn.preprocessing import LabelEncoder
+st.write("Available columns in dataset:", data.columns.tolist())
 
-le = LabelEncoder()
-for col in ['Gender', 'Ever_Married', 'Graduated', 'Profession', 'Var_1']:
-    data[col] = le.fit_transform(data[col])
+st.sidebar.header("Applicant Details")
 
-# Apply the same label encoding to input_df
-for col in ['Gender', 'Ever_Married', 'Graduated', 'Profession', 'Var_1']:
-    input_df[col] = le.transform(input_df[col])
+state = st.sidebar.selectbox("State", sorted(data["State"].unique()))
+city = st.sidebar.selectbox("City", sorted(data["City"].unique()))
+income = st.sidebar.number_input("Annual Income (in USD)", min_value=0)
+loan_amount = st.sidebar.number_input("Loan Amount (in USD)", min_value=0)
+monthly_emi = st.sidebar.number_input("Monthly EMI (in USD)", min_value=0)
+num_dependents = st.sidebar.number_input("Number of Dependents", min_value=0, step=1)
+credit_score = st.sidebar.number_input("Credit Score", min_value=300, max_value=900)
 
-# Dropdown inputs
-Gender = st.sidebar.selectbox("Gender", ["Male", "Female"])
-Ever_Married = st.sidebar.selectbox("Ever Married", ["Yes", "No"])
-Graduated = st.sidebar.selectbox("Graduated", ["Yes", "No"])
-Profession = st.sidebar.selectbox("Profession", ["Healthcare", "Engineer", "Lawyer", "Artist", "Executive", "Other"])
-Var_1 = st.sidebar.selectbox("Category", ["Cat_A", "Cat_B", "Cat_C", "Cat_D", "Cat_E", "Cat_F", "Cat_G"])
-
-# Numeric inputs
-Age = st.sidebar.slider("Age", 20, 80, 30)
-Work_Experience = st.sidebar.slider("Work Experience", 0, 20, 5)
-Spending_Score = st.sidebar.slider("Spending Score", 1, 100, 50)
-Family_Size = st.sidebar.slider("Family Size", 1, 10, 3)
-
-# Create input dataframe
-input_dict = {
-    'Gender': [Gender],
-    'Ever_Married': [Ever_Married],
-    'Graduated': [Graduated],
-    'Profession': [Profession],
-    'Var_1': [Var_1],
-    'Age': [Age],
-    'Work_Experience': [Work_Experience],
-    'Spending_Score': [Spending_Score],
-    'Family_Size': [Family_Size]
+input_data = {
+    "State": [state],
+    "City": [city],
+    "Income": [income],
+    "LoanAmount": [loan_amount],
+    "MonthlyEMI": [monthly_emi],
+    "Dependents": [num_dependents],
+    "CreditScore": [credit_score]
 }
 
-input_df = pd.DataFrame(input_dict)
+input_df = pd.DataFrame(input_data)
 
 # Show input for user confirmation
 st.subheader("Input Details")
