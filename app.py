@@ -62,9 +62,6 @@ st.write(data.isnull().sum())
 
 data.info()
 
-data1 = (data['CITY'].value_counts().sum() - data['CITY'].duplicated().sum())
-print(data1)
-
 # Basic preprocessing
 data.dropna(inplace=True)
 
