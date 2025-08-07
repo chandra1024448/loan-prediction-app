@@ -179,11 +179,15 @@ st.bar_chart(data['Risk_Flag'].value_counts())
 
 """##EDA
 
+# EDA Visuals Section
+st.subheader("📊 Exploratory Data Analysis")
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# EDA Visuals Section
-st.subheader("📊 Exploratory Data Analysis")
+fig, ax = plt.subplots()
+sns.countplot(x='House_Ownership', data=data, ax=ax)
+st.pyplot(fig)  # 👈 This renders the plot in Streamlit
 
 if st.checkbox("Show EDA Plots"):
     st.markdown("### Income Distribution")
