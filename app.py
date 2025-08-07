@@ -183,13 +183,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # EDA Visuals Section
-st.subheader("📊 Exploratory Data Analysis (EDA)")
+st.subheader("📊 Exploratory Data Analysis")
 
 if st.checkbox("Show EDA Visuals"):
     # Plot 1: Risk_Flag distribution
     st.write("### 1. Risk_Flag Distribution")
     fig1, ax1 = plt.subplots()
-    sns.countplot(data=data, x='Risk_Flag', ax=ax1)
+    sns.histplot(data['Risk_Flag], ax=ax1)
     st.pyplot(fig1)
 
     # Plot 2: Income distribution
