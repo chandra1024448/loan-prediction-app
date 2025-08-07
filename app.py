@@ -50,7 +50,6 @@ st.title("Loan Prediction App 🚀")
 
 """## Data Preprocessing"""
 
-st.subheader("Dataset Preview")
 st.write("data.head()")
 
 st.write("Shape of the dataset:", data.shape)
