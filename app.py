@@ -114,6 +114,40 @@ result = "Approved ✅" if prediction == 1 else "Rejected ❌"
 # Show result
 st.subheader("Prediction Result")
 st.write(f"Your loan is likely to be: *{result}*")
+
+
+st.subheader("Exploratory Data Analysis (EDA)")
+
+# Dataset overview
+st.write("### Dataset Overview")
+st.dataframe(data.head())
+
+# Shape of dataset
+st.write("*Shape of dataset:*", data.shape)
+
+# Summary statistics
+st.write("### Summary Statistics")
+st.dataframe(data.describe())
+
+# Data types and null values
+st.write("### Data Info")
+buffer = io.StringIO()
+data.info(buf=buffer)
+s = buffer.getvalue()
+st.text(s)
+
+# Missing values
+st.write("### Missing Values")
+st.dataframe(data.isnull().sum())
+
+# Plotting distributions
+st.write("### Distribution of Target Variable")
+st.bar_chart(data['Risk_Flag'].value_counts())
+
+# More visualizations (optional)
+# st.write("### Income Distribution")
+# st.hist(data['Income'])  # Example, if column exists
+
 """##EDA
 
 ###Univariate Analysis
